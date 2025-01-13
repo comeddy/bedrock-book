@@ -1,4 +1,4 @@
-# 'Amazon Bedrock 생성 AI 앱 개발 입문' 핸즈온용 샘플 코드
+# 'Amazon Bedrock 생성형 AI 앱 개발 입문' 핸즈온용 샘플 코드
 
 제목 책의 핸즈온을 쉽게 할 수 있도록 샘플 코드 부분을 파일로 저장한 리포지토리입니다.
 
@@ -15,118 +15,118 @@
 
 ![](images/flyer.png)
 
-### このリポジトリの構成
+### 이 리포지토리 구성
 
-- `chapter⚫️` ディレクトリ ：各章のハンズオン用コードや、手打ちが大変な設定値などを格納しています。
-  - 必要なPythonライブラリを記載した `requirements.txt` も、参考までに格納しています。
-  - 書籍刊行後の機能アップデートへの対応方法などを `README.md` にて補足しています。
+- `chapter⚫️` 디렉토리: 각 장과 수동으로 입력하기 어려운 설정에 대한 실습 코드가 들어 있습니다.
+  - 필요한 Python 라이브러리를 나열한 `requirements.txt`도 참고로 저장됩니다.
+  - 서적 간행 후 기능 업데이트에 대응하는 방법 등을 `README.md`로 보충하고 있습니다.
+  
+### 오류 등을 발견하면
 
-### エラー等を見つけた際は
+책 저장소 [Issues](https://github.com/minorun365/bedrock-book/issues)에 기표해 주세요. 최선을 다해 대응하겠습니다.
 
-本リポジトリの [Issues](https://github.com/minorun365/bedrock-book/issues) へ起票ください。ベストエフォートで対応します。
+### 오탈자 등 안내
 
-### 誤植などのお知らせ
-
-[SBクリエイティブ公式サイト](https://www.sbcr.jp/product/4815626440/) にて、正誤情報を適宜掲載します。
+[SBクリエイティブ公式サイト](https://www.sbcr.jp/product/4815626440/) 에 오류 정보를 수시로 게재합니다.
 
 
-## ✨ 書籍刊行後のアップデート補足
+## ✨ 책 출간 후 업데이트 보충
 
-### ■ Cloud9の新規利用が不可に（対象：付録4、およびハンズオン全般）
+### ■ Cloud9의 신규 이용 불가 (대상: 부록 4 및 핸즈온 전반)
 
-ハンズオン用の開発環境として案内しているAWS Cloud9の新規利用が、2024/7/29より一部制限されたことを確認しています。
-付録4の代替となる手順を以下ブログ記事で公開しました。各章の再検証も進めており、内容は随時更新しています。
+실습용 개발 환경으로 안내하고 있는 AWS Cloud9의 신규 이용이 2024/7/29부터 일부 제한되었음을 확인하였습니다.
+부록 4를 대체할 수 있는 절차를 아래 블로그 글에 공개했습니다. 각 장에 대한 재검증을 진행하고 있으며, 내용은 수시로 업데이트하고 있습니다.
 
-[AWS Cloud9が突然、新規利用不可に？ 代替策「SageMaker Studio コードエディタ」の利用手順](https://qiita.com/minorun365/items/f5289163795d5d7b21e2)
+[AWS Cloud9이 갑자기 신규 이용 불가? 대체 방안 'SageMaker Studio 코드 에디터' 이용 방법](https://qiita.com/minorun365/items/f5289163795d5d7b21e2)
 
-### ■ 新モデル追加（対象：第2章ほか）
+### ■ 신모델 추가(대상: 2장 외)
 
-#### 【2024/6/20】 Anthropic社の新モデル「Claude 3.5 Sonnet」がリリース！
+#### 【2024/6/20】 Anthropic의 새로운 모델 'Claude 3.5 Sonnet' 출시!
 
-Anthropic社の新モデルで、Claude 3 Sonnetの後継となります。性能・コストともにClaude 3 Opusをも上回るとされています。
+Anthropic의 새로운 모델로 Claude 3 Sonnet의 후속 모델이다. 성능, 비용 모두 Claude 3 Opus를 능가하는 것으로 알려져 있다.
 
 - https://qiita.com/minorun365/items/cd46235d5e446b1f41c5
 
-本書のハンズオンへの取り込み方法
+이 책의 핸즈온 활용 방법
 
-- 書籍P.80を参考に `Claude 3.5 Sonnet` をバージニア北部リージョンのBedrockで有効化する
-  - 「利用不可」ステータスとなり有効化できないことがあります。その際は日にちをおいてリトライするか、AWSサポートに問い合わせてみてください。
-- 各章のサンプルコードにおいて、Claude 3 SonnetのモデルIDを指定している箇所を、Claude 3.5 SonnetのモデルID（`anthropic.claude-3-5-sonnet-20240620-v1:0`）に置き換える
+- 책 P.80을 참고하여 `Claude 3.5 Sonnet`을 버지니아 북부 지역 Bedrock에서 활성화하기
+  - '사용 불가' 상태가 되어 활성화되지 않을 수 있습니다. 이 경우 시간을 두고 다시 시도하거나 AWS 지원팀에 문의해 보시기 바랍니다.
+- 각 장의 샘플 코드에서 Claude 3 Sonnet의 모델 ID를 지정한 부분을 Claude 3.5 Sonnet의 모델 ID(`anthropic.claude-3-5-sonnet-20240620-v1:0`)로 대체한다.
 
-注意点
+주의 사항
 
-- Bedrockでは、GUIやAPI経由での単体モデル呼び出しに対応していますが、応用機能（ナレッジベースやエージェント）へは未対応です（2024/6/20時点）。
-- Knowkedge bases for Amazon Bedrockにおいては、 `Retrieve` APIを利用すればClaude 3.5 Sonnetをすぐに活用できます（書籍P.216参照）。
+- Bedrock에서는 GUI나 API를 통한 단독 모델 호출은 지원하지만, 응용 기능(지식 베이스나 에이전트)은 미지원입니다(2024/6/20 기준).
+- Knowkedge bases for Amazon Bedrock에서는 `Retrieve` API를 이용하면 Claude 3.5 Sonnet을 바로 활용할 수 있습니다(책 P.216 참조).
 
-#### 【2024/6/26】 AI21 Labs社の新モデル「Jumba-Instruct」がリリース
+#### 【2024/6/26】 AI21 Labs의 새로운 모델 'Jumba-Instruct'가 출시되었습니다.
 
-同社の既存モデル「Jurassic-2」シリーズを上回る高性能モデル。256Kトークンという大容量のコンテキストウィンドウに対応。言語は英語のみ。
+기존 'Jurassic-2' 시리즈를 뛰어넘는 고성능 모델로, 256K 토큰의 대용량 컨텍스트 창을 지원한다. 언어는 영어만 지원.
 
 - [AI21 Labs Jamba-Instruct model is now available in Amazon Bedrock | AWS Machine Learning Blog](https://aws.amazon.com/jp/blogs/machine-learning/ai21-labs-jamba-instruct-model-is-now-available-in-amazon-bedrock/)
 
-#### 【2024/7/24】 Meta社の新モデル「Llama 3.1」シリーズがリリース
+#### 【2024/7/24】 Meta社의 새로운 모델 'Llama 3.1' 시리즈 출시
 
-同社の既存モデル「Llama 3」シリーズの後継モデル。
+기존 모델인 'Llama 3' 시리즈의 후속 모델이다.
 
-- [Amazon Bedrock での Meta の Llama 3.1 405B、70B、8B モデルを発表 | Amazon Web Services ブログ](https://aws.amazon.com/jp/blogs/news/announcing-llama-3-1-405b-70b-and-8b-models-from-meta-in-amazon-bedrock/)
+- [Meta, Amazon Bedrock에서 Llama 3.1 405B, 70B 및 8B 모델 발표| Amazon Web Services ブログ](https://aws.amazon.com/jp/blogs/news/announcing-llama-3-1-405b-70b-and-8b-models-from-meta-in-amazon-bedrock/)
 
-#### 【2024/7/25】 Mistral社の新モデル「Mistral Large 2」がリリース
+#### 【2024/7/25】 미스트랄의 새로운 모델 '미스트랄 라지 2'가 출시되었습니다.
 
 - [Mistral Large 2 is now available in Amazon Bedrock | AWS Machine Learning Blog](https://aws.amazon.com/jp/blogs/machine-learning/mistral-large-2-is-now-available-in-amazon-bedrock/)
 
-#### 【2024/8/6】 Claude 3シリーズがAWS東京リージョンに対応
+#### 【2024/8/6】 Claude 3 시리즈가 AWS 도쿄 리전에 대응합니다.
 
-- [ついにClaude 3.5 SonnetがAWS東京リージョンのBedrockで利用可能に🎉](https://qiita.com/minorun365/items/e2202774ea357f311243)
+- [AWS 도쿄 리전의 Bedrock에서 Claude 3.5 Sonnet을 사용할 수 있게 되었습니다.🎉](https://qiita.com/minorun365/items/e2202774ea357f311243)
 
-#### 【2024/8/6】 Amazonの新モデル「Titan Image Generator v2」がリリース
+#### 【2024/8/6】 아마존의 새로운 모델 'Titan Image Generator v2'가 출시되었습니다.
 
 - [Amazon Titan Image Generator G1 V2と戯れる（Gradioがおすすめ）](https://qiita.com/moritalous/items/29c4d4736d794b75f346)
 - [Amazon Bedrock で Amazon Titan Image Generator v2 が利用可能に](https://aws.amazon.com/jp/blogs/news/amazon-titan-image-generator-v2-is-now-available-in-amazon-bedrock/)
 
-#### 【2024/9/4】 Stability AI社の新モデル「Stable Image Ultra」「Stable Diffusion 3 Large (SD3 Large)」「Stable Image Core」がリリース
+#### 【2024/9/4】 Stability AI社의 신모델 「Stable Image Ultra」「Stable Diffusion 3 Large (SD3 Large)」「Stable Image Core」출시
 
-- [BedrockにStabilityAIの新たな画像生成モデルが3つ登場しました！](https://qiita.com/hedgehog051/items/446db1c07ac45eea1c9c)
+- [Bedrock에 AI의 새로운 이미지 생성 모델 3종이 추가되었습니다.！](https://qiita.com/hedgehog051/items/446db1c07ac45eea1c9c)
 
-### ■ Bedrock応用機能のアップデート（対象：第4〜6章ほか）
+### ■ Bedrock 응용 기능 업데이트 (대상 : 4~6장 외)
 
-#### 【2024/7/11】 生成AI関連の大型アップデート多数（Bedrock、Amazon Q、ほか新サービスなど）
+#### 【2024/7/11】 생성 AI 관련 대형 업데이트 다수 (Bedrock, Amazon Q, 기타 신규 서비스 등)
 
-解説スライドを公開しています。本書を読まれた方は、アップデートをより理解しやすいと思います！
+해설 슬라이드를 공개합니다. 이 책을 읽으신 분들은 업데이트를 더 쉽게 이해하실 수 있을 것입니다!
 
 - [宇宙最速で7/11未明のAmazon Bedrock大型アプデを解説 🚀 - Speaker Deck](https://speakerdeck.com/minorun365/11wei-ming-noamazon-bedrockda-xing-apudewojie-shuo)
 
-#### 【2024/8/21】 Bedrockのバッチ推論機能の一般提供開始
+#### 【2024/8/21】 Bedrock의 일괄 추론 기능 일반 제공 시작
 
-「6.4.1 バッチ推論」にて解説している機能が一般提供を開始しました。専用のSDKは不要で利用できます。
+'6.4.1 일괄 추론'에서 설명한 기능이 일반에 제공되기 시작했습니다. 전용 SDK가 필요 없이 사용할 수 있습니다.
 
-- [Amazon Bedrock では、バッチ推論用の厳選された FM をオンデマンド推論価格の 50% で提供しています。](https://aws.amazon.com/jp/about-aws/whats-new/2024/08/amazon-bedrock-fms-batch-inference-50-price/)
+- [Amazon Bedrock 는 일괄 추론용 엄선된 FM을 온디맨드 추론 가격의 50%에 제공하고 있습니다.](https://aws.amazon.com/jp/about-aws/whats-new/2024/08/amazon-bedrock-fms-batch-inference-50-price/)
 
-#### 【2024/8/27】 クロスリージョン推論をサポート
+#### 【2024/8/27】 지역 간 추론 지원
 
-複数のリージョンを使った動的なルーティングをサポートしました。例えば、「US Anthropic Claude 3.5 Sonnet	」を指定すると、バージニア北部とオレゴンリージョンを使用して推論することができます。指定方法は、モデルIDとしてinference profile（専用のモデルID）を指定します。（例：us.anthropic.claude-3-5-sonnet-20240620-v1:0	）
+여러 지역을 사용한 동적 라우팅을 지원했습니다. 예를 들어, 'US Anthropic Claude 3.5 Sonnet'을 지정하면 버지니아 북부와 오리건 리전을 사용하여 추론할 수 있다. 지정 방법은 모델 ID로 inference profile(전용 모델 ID)을 지정합니다. (예: us.anthropic.claude-3-5-sonnet-20240620-v1:0)
 
-- [Amazon Bedrock でクロスリージョン推論のサポートを開始](https://aws.amazon.com/jp/about-aws/whats-new/2024/08/amazon-bedrock-cross-region-inference/)
+- [Amazon Bedrock 에서 리전 간 추론 지원 시작](https://aws.amazon.com/jp/about-aws/whats-new/2024/08/amazon-bedrock-cross-region-inference/)
 
-### ■ Amazon Qのアップデート（対象：第9章）
+### ■ Amazon Q 업데이트 (대상: 9장)
 
-#### 【2024年内】 Amazon Q Businessが日本語およびAWS東京リージョンに対応予定
+#### 2024년 내] Amazon Q Business가 일본어 및 AWS 도쿄 리전에 대응 예정
 
-参考記事（クラウドWatch）
+참고 기사(Cloud Watch)
 
-- [AWS、Claude 3やAmazon Q for Business日本語版の東京リージョンでの提供時期などを明らかに - クラウド Watch](https://cloud.watch.impress.co.jp/docs/event/1601745.html)
+- [AWS, Claude 3 및 Amazon Q for Business 일본어판 도쿄 리전 제공 시기 등 공개 - Cloud Watch](https://cloud.watch.impress.co.jp/docs/event/1601745.html)
 
-### LangChainのバージョン0.3.0のリリース
+### LangChain 버전 0.3.0 출시
 
-LangChainの新バージョン「0.3.0」がリリースされました。（書籍執筆時点では0.2.0でした）。3章、4章、5章でLangChainを使用していますが、ライブラリーのバージョンアップのみで動作することを確認しました。動作確認を行ったディレクトリに「requirements_langchain-0.3.0.txt」を格納しましたので、LangChain 0.3.0で実施する際は、以下のコマンドにてインストールしてください。
+LangChain의 새로운 버전 '0.3.0'이 출시되었습니다. (책 집필 당시에는 0.2.0이었습니다.) 3장, 4장, 5장에서 LangChain을 사용하고 있는데, 라이브러리 버전업만으로 동작하는 것을 확인했습니다. 동작을 확인한 디렉토리에 'requirements_langchain-0.3.0.txt'를 저장해 두었으니, LangChain 0.3.0에서 실행할 때는 아래 명령어로 설치하시기 바랍니다.
 
 ```
 pip install -r requirements_langchain-0.3.0.txt
 ```
 
 
-## 💻 読者のみなさまの書評ブログ紹介
+## 💻 독자 여러분들의 서평 블로그 소개
 
-たくさんの素敵なアウトプット、ありがとうございます！！🙇‍♂️
+좋은 결과물 많이 만들어 주셔서 감사합니다! 🙇‍♂️
 
 - おむろんさん [「Amazon Bedrock生成AIアプリ開発入門」本の感想を宇宙最速で述べる #Bedrock開発入門 - omuronの備忘録](https://omuron.hateblo.jp/entry/2024/06/18/151000)
 - cyberBOSEさん [「Amazon Bedrock 生成AIアプリ開発入門」レビュー #Bedrock開発入門 #Python - Qiita](https://qiita.com/cyberBOSE/items/c2b0a2885b79f4d10f5d)
