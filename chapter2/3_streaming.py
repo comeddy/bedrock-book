@@ -1,28 +1,28 @@
-# Python外部ライブラリのインポート
+# Python 외부 라이브러리 가져오기
 import json
 import boto3
 
-# Bedrockクライアントの作成
+# Bedrock 클라이언트 생성
 bedrock_runtime = boto3.client("bedrock-runtime")
 
-# リクエストボディを定義
+# 요청 본문 정의
 body = json.dumps(
     {
         "anthropic_version": "bedrock-2023-05-31",
         "max_tokens": 1000,
         "messages": [
-            {"role": "user", "content": [{"type": "text", "text": "いろは歌を教えて"}]}
+            {"role": "user", "content": [{"type": "text", "text": "아이유 노래를 알려주세요"}]}
         ],
     }
 )
 
-# モデルを定義（Claude 3 Sonnet）
+# 모델 정의 (Claude 3 Sonnet)
 modelId = "anthropic.claude-3-sonnet-20240229-v1:0"
 
-# レスポンスを定義
+# 응답 정의
 response = bedrock_runtime.invoke_model_with_response_stream(body=body, modelId=modelId)
 
-# ストリーミング出力
+# 스트리밍 출력
 for event in response.get("body"):
     chunk = json.loads(event["chunk"]["bytes"])
     if (
@@ -31,5 +31,5 @@ for event in response.get("body"):
     ):
         print(chunk["delta"]["text"], end="")
 
-# ストリーミング終了後に改行
+# 스트리밍 종료 후 줄바꿈
 print()

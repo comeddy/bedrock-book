@@ -1,11 +1,11 @@
-# Pyhton外部モジュールのインポート
+# Pyhton 외부 모듈 가져오기
 import boto3
 
-# Bedrockクライアントの作成
+# Bedrock 클라이언트 생성
 bedrock = boto3.client("bedrock")
 
-# モデル一覧取得APIの呼び出し
+# 모델 목록 조회 API 호출
 result = bedrock.list_foundation_models()
 
-# 結果をコンソールに表示
+# 결과를 콘솔에 표시
 print(result)
