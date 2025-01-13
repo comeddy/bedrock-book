@@ -7,7 +7,7 @@ import boto3
 bedrock_runtime = boto3.client("bedrock-runtime")
 
 # 이미지 파일 변환
-with open("image.png", "rb") as image_file:
+with open("image-kr.png", "rb") as image_file:
     image_data = base64.b64encode(image_file.read()).decode("utf-8")
 
 # 프롬프트 정의
