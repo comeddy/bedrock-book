@@ -80,8 +80,8 @@ Anthropic의 새로운 모델로 Claude 3 Sonnet의 후속 모델이다. 성능,
 
 #### 【2024/8/6】 아마존의 새로운 모델 'Titan Image Generator v2'가 출시되었습니다.
 
-- [Amazon Titan Image Generator G1 V2と戯れる（Gradioがおすすめ）](https://qiita.com/moritalous/items/29c4d4736d794b75f346)
-- [Amazon Bedrock で Amazon Titan Image Generator v2 が利用可能に](https://aws.amazon.com/jp/blogs/news/amazon-titan-image-generator-v2-is-now-available-in-amazon-bedrock/)
+- [Amazon Titan Image Generator G1 V2와 연주(Gradio 추천)](https://qiita.com/moritalous/items/29c4d4736d794b75f346)
+- [Amazon Bedrock에서 Amazon Titan Image Generator v2 사용 가능](https://aws.amazon.com/jp/blogs/news/amazon-titan-image-generator-v2-is-now-available-in-amazon-bedrock/)
 
 #### 【2024/9/4】 Stability AI社의 신모델 「Stable Image Ultra」「Stable Diffusion 3 Large (SD3 Large)」「Stable Image Core」출시
 
@@ -93,7 +93,7 @@ Anthropic의 새로운 모델로 Claude 3 Sonnet의 후속 모델이다. 성능,
 
 해설 슬라이드를 공개합니다. 이 책을 읽으신 분들은 업데이트를 더 쉽게 이해하실 수 있을 것입니다!
 
-- [宇宙最速で7/11未明のAmazon Bedrock大型アプデを解説 🚀 - Speaker Deck](https://speakerdeck.com/minorun365/11wei-ming-noamazon-bedrockda-xing-apudewojie-shuo)
+- [우주에서 가장 빠른 속도: 7월 11일 새벽 아마존 베드록 주요 업데이트 설명 🚀 - Speaker Deck](https://speakerdeck.com/minorun365/11wei-ming-noamazon-bedrockda-xing-apudewojie-shuo)
 
 #### 【2024/8/21】 Bedrock의 일괄 추론 기능 일반 제공 시작
 
