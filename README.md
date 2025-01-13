@@ -11,7 +11,7 @@
 
 아직 가지고 있지 않으신 분은 꼭 구입해 보세요!
 
-[Amazon Bedrock 生成AIアプリ開発入門](https://www.sbcr.jp/product/4815626440/)
+[Amazon Bedrock 생성형 AI 앱 개발 입문](https://www.sbcr.jp/product/4815626440/)
 
 ![](images/flyer.png)
 
