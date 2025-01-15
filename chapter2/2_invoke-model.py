@@ -1,11 +1,11 @@
-# Python外部ライブラリをインポート
+# Python 외부 라이브러리 가져오기
 import json
 import boto3
 
-# Bedrockクライアントを作成
+#Bedrock 클라이언트 생성
 bedrock = boto3.client("bedrock-runtime")
 
-# リクエストボディを定義
+# 요청 본문 정의
 body = json.dumps(
     {
         "anthropic_version": "bedrock-2023-05-31",
@@ -13,23 +13,23 @@ body = json.dumps(
         "messages": [
             {
                 "role": "user",
-                "content": "Bedrockってどういう意味？",
+                "content": "Bedrock은 무슨 뜻인가요?",
             }
         ],
     }
 )
 
-# モデルを定義（Claude 3 Sonnet）
+# 모델 정의 (Claude 3 Sonnet)
 modelId = "anthropic.claude-3-sonnet-20240229-v1:0"
 
-# HTTPヘッダーを定義
+# HTTP 헤더 정의
 accept = "application/json"
 contentType = "application/json"
 
-# レスポンスを定義
+# 응답 정의
 response = bedrock.invoke_model(body=body, modelId=modelId, accept=accept, contentType=contentType)
 response_body = json.loads(response.get("body").read())
 answer = response_body["content"][0]["text"]
 
-# 生成されたテキストをコンソールに表示
+# 생성된 텍스트를 콘솔에 표시합니다.
 print(answer)
