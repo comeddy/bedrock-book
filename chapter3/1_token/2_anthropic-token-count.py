@@ -1,13 +1,16 @@
-# Pyhton外部モジュールのインポート
-from anthropic import Anthropic
+# Pyhton 외부 모듈 가져오기
+from anthropic import AnthropicBedrock
 
-# クライアントの生成
-client = Anthropic()
+# 클라이언트 생성
+client = AnthropicBedrock()
 
-# トークン数を取得（日本語文字列）
-tokens = client.count_tokens("Amazon BedrockはAWSの生成AIサービスです。")
+# 토큰 수 계산 (한국어 문자열)
+tokens = client.count_tokens("Amazon Bedrock은 AWS의 생성형 AI 서비스입니다.")
 print(tokens)
 
-# トークン数を取得（英語文字列）
+# 토큰 수 계산 (영어 문자열)
 tokens = client.count_tokens("Amazon Bedrock is an AWS generative AI service")
 print(tokens)
+
+
+### 코드 수정 필요.
