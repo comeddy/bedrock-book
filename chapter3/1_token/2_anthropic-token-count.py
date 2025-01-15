@@ -13,4 +13,4 @@ tokens = client.count_tokens("Amazon Bedrock is an AWS generative AI service")
 print(tokens)
 
 
-### 코드 수정 필요.
+###### 코드 수정 필요. 

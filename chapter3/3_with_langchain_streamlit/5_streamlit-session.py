@@ -1,42 +1,42 @@
-# Pyhton外部モジュールのインポート
+# Pyhton 외부 모듈 가져오기
 import streamlit as st
 from langchain_aws import ChatBedrock
 from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
 
-# タイトル
-st.title("Bedrock チャット")
+# 제목
+st.title("Bedrock 채팅")
 
-# ChatBedrockを生成
+# ChatBedrock 생성
 chat = ChatBedrock(
     model_id="anthropic.claude-3-sonnet-20240229-v1:0",
     model_kwargs={"max_tokens": 1000},
     streaming=True,
 )
 
-# セッションにメッセージを定義
+# 세션에 메시지 설정하기(정의하기)
 if "messages" not in st.session_state:
     st.session_state.messages = [
-        SystemMessage(content="あなたのタスクはユーザーの質問に明確に答えることです。"),
+        SystemMessage(content="당신의 태스크는 사용자의 질문에 명확하게 답변하는 것입니다."),
     ]
 
-# メッセージを画面表示
+# 메시지를 화면에 출력
 for message in st.session_state.messages:
     if message.type != "system":
         with st.chat_message(message.type):
             st.markdown(message.content)
 
-# チャット入力欄を定義
-if prompt := st.chat_input("何でも聞いてください。"):
-    # ユーザーの入力をメッセージに追加
+# 채팅 입력란 정의
+if prompt := st.chat_input("무엇이든 물어보세요"):
+    # 사용자가 입력한 내용을 대화 기록(메시지)에 추가
     st.session_state.messages.append(HumanMessage(content=prompt))
 
-    # ユーザーの入力を画面表示
+    # 사용자의 입력을 화면에 표시
     with st.chat_message("user"):
         st.markdown(prompt)
 
-    # モデルの呼び出しと結果の画面表示
+    # 모델을 실행하고 결과를 화면에 출력
     with st.chat_message("assistant"):
         response = st.write_stream(chat.stream(st.session_state.messages))
         
-    # モデル呼び出し結果をメッセージに追加
+    # 모델 호출 결과를 대화 기록에 추가
     st.session_state.messages.append(AIMessage(content=response))
