@@ -1,11 +1,11 @@
 # Amazon Bedrock 생성형 AI 앱 개발 입문
 
-AWS Bedrock, LangChain, Streamlit을 활용한 생성형 AI 애플리케이션 개발을 위한 실습 코드 저장소입니다. 이 프로젝트는 AWS Bedrock의 파운데이션 모델을 활용하여 텍스트 생성, RAG(검색 증강 생성), AI 에이전트, 워크플로 자동화까지 다양한 생성형 AI 기능을 구현하는 방법을 제공합니다.
+Amazon Bedrock, LangChain, Streamlit을 활용한 생성형 AI 애플리케이션 개발을 위한 실습 코드 저장소입니다. 이 프로젝트는 Amazon Bedrock의 파운데이션 모델을 활용하여 텍스트 생성, RAG(검색 증강 생성), AI 에이전트, 워크플로 자동화까지 다양한 생성형 AI 기능을 구현하는 방법을 제공합니다.
 
 ## 📚 프로젝트 개요
 
 이 저장소는 다음과 같은 실제 구현 예제를 포함합니다:
-- AWS Bedrock 파운데이션 모델과의 직접 상호작용
+- Amazon Bedrock 파운데이션 모델과의 직접 상호작용
 - LangChain을 통한 고급 AI 기능 구현
 - Streamlit을 사용한 대화형 웹 인터페이스 구축
 - RAG 패턴을 통한 지식 기반 응답 시스템
@@ -16,7 +16,7 @@ AWS Bedrock, LangChain, Streamlit을 활용한 생성형 AI 애플리케이션 �
 
 ```
 bedrock-book/
-├── chapter2/                          # AWS Bedrock 기본 사용법
+├── chapter2/                          # Amazon Bedrock 기본 사용법
 │   ├── 1_list-models.py              # 사용 가능한 파운데이션 모델 목록 조회
 │   ├── 2_invoke-model.py             # 모델 직접 호출 예제
 │   ├── 3_streaming.py                # 스트리밍 응답 처리
@@ -113,7 +113,7 @@ bedrock-book/
    pip install -r chapter5/requirements.txt
    ```
 
-### AWS Bedrock 모델 활성화
+### Amazon Bedrock 모델 활성화
 
 1. AWS 콘솔에서 Amazon Bedrock 서비스로 이동
 2. 좌측 메뉴에서 "Model access" 선택
@@ -234,7 +234,7 @@ aws dynamodb create-table \
 
 이 프로젝트는 다음과 같은 계층화된 아키텍처를 구현합니다:
 
-1. **기반 계층**: AWS Bedrock API 직접 호출
+1. **기반 계층**: Amazon Bedrock API 직접 호출
 2. **통합 계층**: LangChain 추상화 및 유틸리티
 3. **애플리케이션 계층**: Streamlit 웹 인터페이스
 4. **오케스트레이션 계층**: Step Functions 워크플로
@@ -242,7 +242,7 @@ aws dynamodb create-table \
 주요 컴포넌트 간 상호작용:
 - **Streamlit**: 사용자 인터페이스 및 세션 관리
 - **LangChain**: AI 작업을 위한 고수준 추상화
-- **AWS Bedrock**: 파운데이션 모델 기능 제공
+- **Amazon Bedrock**: 파운데이션 모델 기능 제공
 - **Step Functions**: 복잡한 워크플로 오케스트레이션
 - **DynamoDB**: 대화 기록 저장 (선택사항)
 
@@ -266,11 +266,11 @@ aws dynamodb create-table \
 
 ## 📚 참고 자료
 
-- [AWS Bedrock 공식 문서](https://docs.aws.amazon.com/bedrock/)
+- [Amazon Bedrock 공식 문서](https://docs.aws.amazon.com/bedrock/)
 - [LangChain 공식 문서](https://python.langchain.com/)
 - [Streamlit 공식 문서](https://docs.streamlit.io/)
 - [AWS Step Functions 공식 문서](https://docs.aws.amazon.com/step-functions/)
 
 ---
 
-**주의**: 이 코드를 실행하기 전에 AWS Bedrock에서 필요한 모델들을 활성화했는지 확인하세요. 일부 모델은 사용 승인이 필요할 수 있습니다.
+**주의**: 이 코드를 실행하기 전에 Amazon Bedrock에서 필요한 모델들을 활성화했는지 확인하세요. 일부 모델은 사용 승인이 필요할 수 있습니다.
