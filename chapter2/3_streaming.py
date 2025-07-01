@@ -17,7 +17,7 @@ body = json.dumps(
 )
 
 # 모델 정의 (Claude 3 Sonnet)
-modelId = "anthropic.claude-3-sonnet-20240229-v1:0"
+modelId = "anthropic.claude-3-5-sonnet-20240620-v1:0"
 
 # 응답 정의
 response = bedrock_runtime.invoke_model_with_response_stream(body=body, modelId=modelId)

@@ -1,0 +1,16 @@
+{
+  "anthropic_version": "bedrock-2023-05-31",
+  "max_tokens": 1000,
+  "system": "당신의 태스크는 자기소개문 작성과 캐치프레이즈 작성입니다.",
+  "messages": [
+      {
+          "role": "user",
+          "content": [
+              {
+                  "type": "text",
+                  "text": "'다음 문장은 제가 최근 게시한 기술 블로그의 내용입니다.\n\n<documents>\n {% states.input.Summary %}\n</documents>\n\n최근 제 블로그 게시물을 바탕으로 제 캐치프레이즈를 생성해 주세요. 또한, 자기소개문을 300자 정도로 생성해 주세요."
+              }
+          ]
+      }
+  ]
+}

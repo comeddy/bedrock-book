@@ -4,13 +4,13 @@ import requests
 from bs4 import BeautifulSoup
 
 def lambda_handler(event, context):
-    url = "https://aws.amazon.com/jp/blogs/aws/"
+    url = "https://aws.amazon.com/ko/blogs/aws/"
 
-    # リクエストを送信してHTMLを取得
+    # 요청 보내기 및 HTML 가져오기
     response = requests.get(url)
     soup = BeautifulSoup(response.text, "html.parser")
 
-    # 最新の記事を1件取得
+    # 최신 기사 1건 검색
     articles = soup.select("article.blog-post")[:1]
 
     result = []

@@ -1,0 +1,16 @@
+{
+  "anthropic_version": "bedrock-2023-05-31",
+  "max_tokens": 500,
+  "system": "당신의 태스크는 요점을 정리하는 것입니다.",
+  "messages": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "{% '다음 문장은 제가 블로그에 게시한 내용입니다.\n\n<document>\n' & $states.input.body & '\n</document>\n\n조건\n- 문서 내용에서 필자가 해결한 과제나 시도하게 된 계기를 1줄로 출력해 주세요.\n- 문서 내용에서 필자가 공들인 점을 3가지 추출하여 글머리 기호로 출력해 주세요.\n- 문서 내용에서 필자가 시도한 내용을 200자로 정리해 주세요.\n\n조건에 따라 <document>의 요점을 추출해 주세요.' %}"
+        }
+      ]
+    }
+  ]
+}

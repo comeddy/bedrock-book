@@ -1,191 +1,309 @@
-Comment: ステートマシンの説明
-StartAt: Qiita APIの呼び出し
-States:
-  Qiita APIの呼び出し:
-    Type: Task
-    Resource: arn:aws:states:::http:invoke
-    Parameters:
-      ApiEndpoint: https://qiita.com/api/v2/items
-      Method: GET
-      Authentication:
-        ConnectionArn: >-
-          arn:aws:events:us-east-1:637423213562:connection/qiita-connection/b6f6ee57-612e-4787-ae9e-ee47e6452844
-      QueryParameters:
-        query: bedrock user:moritalous
-        per_page: "3"
-    Retry:
-      - ErrorEquals:
-          - States.ALL
-        BackoffRate: 2
-        IntervalSeconds: 1
-        MaxAttempts: 3
-        JitterStrategy: FULL
-    Next: Map
-  Map:
-    Type: Map
-    ItemProcessor:
-      ProcessorConfig:
-        Mode: INLINE
-      StartAt: 各投稿を要約
-      States:
-        各投稿を要約:
-          Type: Task
-          Resource: arn:aws:states:::bedrock:invokeModel
-          Parameters:
-            ModelId: >-
-              arn:aws:bedrock:us-east-1::foundation-model/anthropic.claude-3-sonnet-20240229-v1:0
-            Body:
-              anthropic_version: bedrock-2023-05-31
-              max_tokens: 500
-              system: あなたのタスクは要点をまとめることです。
-              messages:
-                - role: user
-                  content:
-                    - type: text
-                      text.$: |-
-                        States.Format('以下の文章は私がブログに投稿した内容です。
-
-                        <document>
-                        {}
-                        </document>
-
-                        条件
-                        - 文書の内容から筆者が解決した課題や取り組んだきっかけを1行で出力してください。
-                        - 文書の内容から筆者が工夫した点を3点抽出し、箇条書きで出力してください。
-                        - 文書の内容から筆者が取り組んだ内容を200文字でまとめてください。
-
-                        条件に従って<document>の要点を抽出してください。', $.body)
-          End: true
-    ItemsPath: $.ResponseBody
-    ResultSelector:
-      Summary.$: $
-    Next: 自己紹介文とキャッチコピーを生成
-  自己紹介文とキャッチコピーを生成:
-    Type: Task
-    Resource: arn:aws:states:::bedrock:invokeModel
-    Parameters:
-      ModelId: >-
-        arn:aws:bedrock:us-east-1::foundation-model/anthropic.claude-3-sonnet-20240229-v1:0
-      Body:
-        anthropic_version: bedrock-2023-05-31
-        max_tokens: 1000
-        system: あなたのタスクは自己紹介文章の作成とキャッチコピーの作成です。
-        messages:
-          - role: user
-            content:
-              - type: text
-                text.$: >-
-                  States.Format('以下の文章は、私が最近投稿した技術ブログの内容です。
-
-
-                  <documents>
-
-                  {}
-
-                  </documents>
-
-
-                  最近の私のブログの投稿をもとに、私のキャッチコピーを生成してください。また、自己紹介文章を300文字程度で生成してください。',
-                  $.Summary)
-    Next: Parallel
-  Parallel:
-    Type: Parallel
-    End: true
-    Branches:
-      - StartAt: Markdownを生成
+Resources:
+  StateMachine11c43345:
+    Type: AWS::StepFunctions::StateMachine
+    Properties:
+      Definition:
+        QueryLanguage: JSONata
+        Comment: A description of my state machine
+        StartAt: Qiita API 호출
         States:
-          Markdownを生成:
+          Qiita API 호출:
+            Type: Task
+            Resource: arn:aws:states:::http:invoke
+            Arguments:
+              ApiEndpoint: https://qiita.com/api/v2/items
+              Method: GET
+              InvocationConfig:
+                ConnectionArn: ${httpinvoke_InvocationConfigConnectionArn_f815f9f0}
+              QueryParameters:
+                page: "1"
+                per_page: "2"
+                query: bedrock user:moritalous
+            Retry:
+              - ErrorEquals:
+                  - States.ALL
+                BackoffRate: 2
+                IntervalSeconds: 1
+                MaxAttempts: 3
+                JitterStrategy: FULL
+            Next: Map
+          Map:
+            Type: Map
+            ItemProcessor:
+              ProcessorConfig:
+                Mode: INLINE
+              StartAt: 각 게시물을 요약
+              States:
+                각 게시물을 요약:
+                  Type: Task
+                  Resource: arn:aws:states:::bedrock:invokeModel
+                  Arguments:
+                    ModelId: ${bedrockinvokeModel_ModelId_8bebe780}
+                    Body:
+                      anthropic_version: bedrock-2023-05-31
+                      max_tokens: 500
+                      system: 당신의 태스크는 요점을 정리하는 것입니다.
+                      messages:
+                        - role: user
+                          content:
+                            - type: text
+                              text: |-
+                                {% '다음 문장은 제가 블로그에 게시한 내용입니다.
+
+                                <document>
+                                ' & $states.input.body & '
+                                </document>
+
+                                조건
+                                - 문서 내용에서 필자가 해결한 과제나 시도하게 된 계기를 1줄로 출력해 주세요.
+                                - 문서 내용에서 필자가 공들인 점을 3가지 추출하여 글머리 기호로 출력해 주세요.
+                                - 문서 내용에서 필자가 시도한 내용을 200자로 정리해 주세요.
+
+                                조건에 따라 <document>의 요점을 추출해 주세요.' %}
+                  End: true
+            Output:
+              Summary: "{% $states.result %}"
+            Items: "{% $states.input.ResponseBody %}"
+            Next: 자기소개 문구와 캐치프레이즈 생성
+          자기소개 문구와 캐치프레이즈 생성:
             Type: Task
             Resource: arn:aws:states:::bedrock:invokeModel
-            Parameters:
-              ModelId: >-
-                arn:aws:bedrock:us-east-1::foundation-model/anthropic.claude-3-sonnet-20240229-v1:0
+            Arguments:
+              ModelId: ${bedrockinvokeModel_ModelId_8bebe780}
               Body:
                 anthropic_version: bedrock-2023-05-31
                 max_tokens: 1000
-                system: あなたのタスクはMarkdownを生成することです。
+                system: 당신의 태스크는 자기소개문 작성과 캐치프레이즈 작성입니다.
                 messages:
                   - role: user
                     content:
                       - type: text
-                        text.$: |-
-                          States.Format('自己紹介の内容と最近投稿したブログを元にMarkdownを生成してください。
+                        text: >-
+                          '다음 문장은 제가 최근 게시한 기술 블로그의 내용입니다.
 
-                          <自己紹介の内容>
-                          {}
-                          </自己紹介の内容>
 
-                          条件
-                          - Markdownのみを出力し、不要な会話文は出力しないでください。
+                          <documents>
+                           {% states.input.Summary %}
+                          </documents>
 
-                          私の自己紹介をMarkdown形式で生成してください。', $.Body.content[0].text)
-                  - role: assistant
-                    content:
-                      - type: text
-                        text: "#"
+
+                          최근 제 블로그 게시물을 바탕으로 제 캐치프레이즈를 생성해 주세요. 또한, 자기소개문을 300자
+                          정도로 생성해 주세요.
+            Next: Parallel
+          Parallel:
+            Type: Parallel
+            Branches:
+              - StartAt: Markdown 생성
+                States:
+                  Markdown 생성:
+                    Type: Task
+                    Resource: arn:aws:states:::bedrock:invokeModel
+                    Arguments:
+                      ModelId: ${bedrockinvokeModel_ModelId_8bebe780}
+                      Body:
+                        anthropic_version: bedrock-2023-05-31
+                        max_tokens: 1000
+                        system: 당신의 태스크는 Markdown을 생성하는 것입니다.
+                        messages:
+                          - role: user
+                            content:
+                              - type: text
+                                text: >-
+                                  {% '자기소개 내용과 최근 게시한 블로그를 바탕으로 Markdown을 생성해
+                                  주세요.
+
+
+                                  <자기소개 내용>
+
+                                  ' & $states.input.Body.content[0].text & '
+
+                                  </자기소개 내용>
+
+
+                                  조건
+
+                                  - Markdown만 출력하고, 불필요한 대화문은 출력하지 마세요.
+
+
+                                  제 자기소개를 Markdown 형식으로 생성해 주세요.' %}
+                          - role: assistant
+                            content:
+                              - type: text
+                                text: "#"
+                    End: true
+                    Output:
+                      Markdown: "{% $states.result %}"
+              - StartAt: 이미지 생성 프롬프트 생성
+                States:
+                  이미지 생성 프롬프트 생성:
+                    Type: Task
+                    Resource: arn:aws:states:::bedrock:invokeModel
+                    Arguments:
+                      ModelId: ${bedrockinvokeModel_ModelId_8bebe780}
+                      Body:
+                        anthropic_version: bedrock-2023-05-31
+                        max_tokens: 200
+                        messages:
+                          - role: user
+                            content:
+                              - type: text
+                                text: string
+                    Next: 아이캐치 이미지 생성
+                  아이캐치 이미지 생성:
+                    Type: Task
+                    Resource: arn:aws:states:::bedrock:invokeModel
+                    Arguments:
+                      ModelId: ${bedrockinvokeModel_ModelId_f268b357}
+                      Body:
+                        text_prompts:
+                          - text: string
+                      Output:
+                        S3Uri: ${bedrockinvokeModel_OutputS3Uri_80247277}
+                    End: true
+                    Output:
+                      Image: "{% $states.result %}"
             End: true
-            ResultSelector:
-              Markdown.$: $
-      - StartAt: 画像生成プロンプトを生成
-        States:
-          画像生成プロンプトを生成:
-            Type: Task
-            Resource: arn:aws:states:::bedrock:invokeModel
-            Parameters:
-              ModelId: >-
-                arn:aws:bedrock:us-east-1::foundation-model/anthropic.claude-3-sonnet-20240229-v1:0
-              Body:
-                anthropic_version: bedrock-2023-05-31
-                max_tokens: 1000
-                system: >-
-                  あなたのタスクはStable
-                  Diffusionで使用するプロンプトを考案することです。考案したプロンプト以外の出力は行わないでください。
-                messages:
-                  - role: user
-                    content:
-                      - type: text
-                        text.$: >-
-                          States.Format('以下の内容でブログを作成します。
-
-
-                          <自己紹介の内容>
-
-                          {}
-
-                          </自己紹介の内容>
-
-
-                          条件
-
-                          - プロンプトのみを出力し、不要な会話文は出力しないでください。
-
-                          - プロンプトは英語で出力してください。
-
-
-                          私の自己紹介をもとにアイキャッチ画像を生成するプロンプトを生成してください。',
-                          $.Body.content[0].text)
-                  - role: assistant
-                    content:
-                      - type: text
-                        text: "#"
-            Next: アイキャッチ画像を生成
-          アイキャッチ画像を生成:
-            Type: Task
-            Resource: arn:aws:states:::bedrock:invokeModel
-            Parameters:
-              ModelId: >-
-                arn:aws:bedrock:us-east-1::foundation-model/stability.stable-diffusion-xl-v1
-              Body:
-                text_prompts:
-                  - text.$: $.Body.content[0].text
-                    weight: 1
-                cfg_scale: 10
-                seed: 0
-                steps: 50
-                width: 1024
-                height: 1024
-              Output:
-                S3Uri: s3://bedrock-637423213562/stepfunctions/image.json
-            End: true
-            ResultSelector:
-              Image.$: $
+      DefinitionSubstitutions:
+        httpinvoke_InvocationConfigConnectionArn_f815f9f0: arn:aws:events:us-east-1:123456789000:connection/qiita-connection/b1be25b3-c89f-46ef-8aa1-d9bb028007e3
+        bedrockinvokeModel_ModelId_8bebe780: arn:aws:bedrock:us-east-1::foundation-model/anthropic.claude-3-sonnet-20240229-v1:0
+        bedrockinvokeModel_ModelId_f268b357: arn:aws:bedrock:us-east-1::foundation-model/stability.stable-diffusion-xl-v1
+        bedrockinvokeModel_OutputS3Uri_80247277: s3://bedrock-1234567890/stepfunctions/image.json
+      RoleArn:
+        Fn::GetAtt:
+          - Role4087bc43
+          - Arn
+      StateMachineName: StateMachine11c43345
+      StateMachineType: EXPRESS
+      EncryptionConfiguration:
+        Type: AWS_OWNED_KEY
+      LoggingConfiguration:
+        Level: ALL
+        IncludeExecutionData: true
+        Destinations:
+          - CloudWatchLogsLogGroup:
+              LogGroupArn:
+                Fn::GetAtt:
+                  - LogGroup4430c3d5
+                  - Arn
+  Role4087bc43:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: StepFunctions_IAM_ROLE_Bedrock-StateMachine42125d67
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Sid: TrustPolicy1
+            Effect: Allow
+            Principal:
+              Service: states.amazonaws.com
+            Action: sts:AssumeRole
+            Condition:
+              StringEquals:
+                aws:SourceAccount: "123456789000"
+              ArnLike:
+                aws:SourceArn: arn:aws:states:us-east-1:123456789000:stateMachine:*
+      MaxSessionDuration: 3600
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonS3FullAccess
+  Policyea24976f:
+    Type: AWS::IAM::RolePolicy
+    Properties:
+      PolicyName: BedrockInvokeModelScopedAccessForFoundationModelPolicyaac113ad
+      RoleName:
+        Ref: Role4087bc43
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Sid: InvokeModel1
+            Action:
+              - bedrock:InvokeModel
+            Resource:
+              - arn:aws:bedrock:us-east-1::foundation-model/anthropic.claude-3-sonnet-20240229-v1:0
+              - arn:aws:bedrock:us-east-1::foundation-model/stability.stable-diffusion-xl-v1
+  Policyb2cf9e9d:
+    Type: AWS::IAM::RolePolicy
+    Properties:
+      PolicyName: XRayAccessPolicy66a4d9a1
+      RoleName:
+        Ref: Role4087bc43
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action:
+              - xray:PutTraceSegments
+              - xray:PutTelemetryRecords
+              - xray:GetSamplingRules
+              - xray:GetSamplingTargets
+            Resource:
+              - "*"
+  Policy44ed3065:
+    Type: AWS::IAM::RolePolicy
+    Properties:
+      PolicyName: CloudWatchLogsDeliveryFullAccessPolicy3cbe18d0
+      RoleName:
+        Ref: Role4087bc43
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action:
+              - logs:CreateLogDelivery
+              - logs:GetLogDelivery
+              - logs:UpdateLogDelivery
+              - logs:DeleteLogDelivery
+              - logs:ListLogDeliveries
+              - logs:PutResourcePolicy
+              - logs:DescribeResourcePolicies
+              - logs:DescribeLogGroups
+            Resource: "*"
+  Policycfeaad43:
+    Type: AWS::IAM::RolePolicy
+    Properties:
+      PolicyName: StepFunctionsInvokeHttpEndpointScopedAccessPolicydf561d2d
+      RoleName:
+        Ref: Role4087bc43
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Sid: InvokeHttpEndpoint1
+            Action:
+              - states:InvokeHTTPEndpoint
+            Resource:
+              - arn:aws:states:us-east-1:123456789000:stateMachine:*
+            Condition:
+              StringEquals:
+                states:HTTPEndpoint:
+                  - https://qiita.com/api/v2/items
+                states:HTTPMethod:
+                  - GET
+  Policyf4045a5c:
+    Type: AWS::IAM::RolePolicy
+    Properties:
+      PolicyName: EventBridgeRetrieveConnectionCredentialsScopedAccessPol2b1e024d
+      RoleName:
+        Ref: Role4087bc43
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Sid: RetrieveConnectionCredentials1
+            Action:
+              - events:RetrieveConnectionCredentials
+            Resource:
+              - arn:aws:events:us-east-1:123456789000:connection/qiita-connection/*
+          - Effect: Allow
+            Sid: GetAndDescribeSecretValue1
+            Action:
+              - secretsmanager:GetSecretValue
+              - secretsmanager:DescribeSecret
+            Resource:
+              - arn:aws:secretsmanager:us-east-1:123456789000:secret:events!connection/qiita-connection/*
+  LogGroup4430c3d5:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: /aws/vendedlogs/states/StateMachine11c43345-Logs
+States: {}
+StartAt: ""

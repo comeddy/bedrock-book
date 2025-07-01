@@ -1,4 +1,4 @@
-# Pyhton 외부 모듈 가져오기
+# Python 외부 라이브러리 가져오기
 import boto3
 
 # Bedrock 클라이언트 생성

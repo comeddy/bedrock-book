@@ -1,0 +1,26 @@
+digraph INFRA {
+  node [ color = "black", fillcolor = "#E6E6E6", height =1, style = "filled,bold,rounded", fontname = "Arial" ];
+  "StateMachine11c43345" [ label = "StateMachine11c43345
+(AWS::StepFunctions::StateMachine)", shape =rectangle, fillcolor = "#B7E0FF" ];
+  "Role4087bc43" [ label = "Role4087bc43
+(AWS::IAM::Role)", shape =rectangle ];
+  "Policyea24976f" [ label = "Policyea24976f
+(AWS::IAM::RolePolicy)", shape =rectangle ];
+  "Policyb2cf9e9d" [ label = "Policyb2cf9e9d
+(AWS::IAM::RolePolicy)", shape =rectangle ];
+  "Policy44ed3065" [ label = "Policy44ed3065
+(AWS::IAM::RolePolicy)", shape =rectangle ];
+  "LogGroup4430c3d5" [ label = "LogGroup4430c3d5
+(AWS::Logs::LogGroup)", shape =rectangle ];
+  "S3Bucket" [ label = "S3Bucket
+(AWS::S3::Bucket)", shape =cylinder, fillcolor = "#FFF5CD" ];
+  "BedrockModel" [ label = "BedrockModel
+(AWS::Bedrock::Model)", shape =rectangle, fillcolor = "#B7E0FF" ];
+  "HttpApiConnection" [ label = "HttpApiConnection
+(AWS::Events::Connection)", shape =rectangle, fillcolor = "#E78F81" ];
+  "StateMachine11c43345" -> "Role4087bc43";
+  "StateMachine11c43345" -> "LogGroup4430c3d5";
+  "Policyea24976f" -> "Role4087bc43";
+  "Policyb2cf9e9d" -> "Role4087bc43";
+  "Policy44ed3065" -> "Role4087bc43";
+}

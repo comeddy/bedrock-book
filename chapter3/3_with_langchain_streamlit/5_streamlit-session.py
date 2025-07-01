@@ -8,7 +8,7 @@ st.title("Bedrock 채팅")
 
 # ChatBedrock 생성
 chat = ChatBedrock(
-    model_id="anthropic.claude-3-sonnet-20240229-v1:0",
+    model_id="anthropic.claude-3-5-sonnet-20240620-v1:0",
     model_kwargs={"max_tokens": 1000},
     streaming=True,
 )
@@ -16,7 +16,7 @@ chat = ChatBedrock(
 # 세션에 메시지 설정하기(정의하기)
 if "messages" not in st.session_state:
     st.session_state.messages = [
-        SystemMessage(content="당신의 태스크는 사용자의 질문에 명확하게 답변하는 것입니다."),
+        SystemMessage(content="당신의 역할은 사용자의 질문에 명확하게 답변하는 것입니다."),
     ]
 
 # 메시지를 화면에 출력

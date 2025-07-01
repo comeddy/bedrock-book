@@ -1,27 +1,27 @@
-# Pyhton外部モジュールのインポート
+# Pyhton 외부 모듈 가져오기
 from langchain_aws import ChatBedrock
 from langchain_core.messages import HumanMessage, SystemMessage
 
 
-# Bedrock呼び出し関数
+# Bedrock 호출 함수
 def invoke_bedrock(prompt: str):
-    # ChatBedrockを生成
+    # ChatBedrock 생성
     chat = ChatBedrock(
-        model_id="anthropic.claude-3-sonnet-20240229-v1:0",
+        model_id="anthropic.claude-3-5-sonnet-20240620-v1:0",
         model_kwargs={"max_tokens": 1000},
     )
 
-    # メッセージを定義
+    # 메시지 정의
     messages = [
-        SystemMessage(content="あなたのタスクはユーザーの質問に明確に答えることです。"),
+        SystemMessage(content="당신의 역할은 사용자의 질문에 명확하게 답하는 것입니다."),
         HumanMessage(content=prompt),
     ]
 
-    # モデル呼び出し
+    # 모델 호출
     response = chat.invoke(messages)
     return response.content
 
-# Lambda実行時に呼ばれる関数
+# Lambda 실행 시 호출되는 함수
 def lambda_handler(event, context):
-    result = invoke_bedrock("空が青いのはなぜですか？")
+    result = invoke_bedrock("하늘이 파란 이유는 무엇입니까？")
     return {"statusCode": 200, "body": result}

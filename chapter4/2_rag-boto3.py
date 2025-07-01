@@ -1,29 +1,28 @@
-# Python外部ライブラリをインポート
+# Python 외부 라이브러리 임포트
 import boto3
 import streamlit as st
 
-# フロントエンドを記述
-st.title("おしえて！Bedrock")
-question = st.text_input("質問を入力")
-button = st.button("質問する")
+# 프론트엔드 작성
+st.title("알려줘! Bedrock")
+question = st.text_input("질문 입력")
+button = st.button("질문하기")
 
-# Bedrockクライアントを作成
+# Bedrock 클라이언트 생성
 kb = boto3.client("bedrock-agent-runtime")
 
-# ボタンが押されたらナレッジベースを呼び出し
+# 버튼이 눌리면 널리지 베이스 호출
 if button:
-
-    # ナレッジベースを定義
+    # 널리지 베이스 정의
     response = kb.retrieve_and_generate(
         input={"text": question},
         retrieveAndGenerateConfiguration={
             "type": "KNOWLEDGE_BASE",
             "knowledgeBaseConfiguration": {
-                "knowledgeBaseId": "XXXXXXXXXX",  # ナレッジベースID
+                "knowledgeBaseId": "XXXXXXXXXX",  # 널리지 베이스 ID
                 "modelArn": "arn:aws:bedrock:us-east-1::foundation-model/anthropic.claude-3-sonnet-20240229-v1:0",
             },
         },
     )
 
-    # RAG結果を画面に表示
+    # RAG 결과를 화면에 표시
     st.write(response["output"]["text"])

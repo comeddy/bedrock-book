@@ -23,7 +23,7 @@ if "chain" not in st.session_state:
     # 프롬프트 생성
     prompt = ChatPromptTemplate.from_messages(
         [
-            ("system", "당신의 태스크는 사용자의 질문에 명확하게 답변하는 것입니다."),
+            ("system", "당신의 역할은 사용자의 질문에 명확하게 답변하는 것입니다."),
             MessagesPlaceholder(variable_name="messages"),
             MessagesPlaceholder(variable_name="human_message"),
         ]
@@ -31,7 +31,7 @@ if "chain" not in st.session_state:
 
     # ChatBedrock 생성
     chat = ChatBedrock(
-        model_id="anthropic.claude-3-sonnet-20240229-v1:0",
+        model_id="anthropic.claude-3-5-sonnet-20240620-v1:0",
         model_kwargs={"max_tokens": 1000},
         streaming=True,
     )
